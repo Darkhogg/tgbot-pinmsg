@@ -1,0 +1,13 @@
+{
+  "name": "tgbot-msgpin",
+  "version": "1.0.0",
+  "description": "Telegram bot for pinning messages to group",
+  "main": "index.js",
+  "author": "Daniel Escoz <darkhogg+npm@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb-bluebird": "0.0.9",
+    "paperdrone": "^0.8.5",
+    "winston": "^2.1.1"
+  }
+}
