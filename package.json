@@ -12,5 +12,9 @@
     "paperdrone": "^0.8.5",
     "restify": "^4.0.4",
     "winston": "^2.1.1"
+  },
+  "engines": {
+    "node": "^5.5.0",
+    "npm": "^3.6.0"
   }
 }

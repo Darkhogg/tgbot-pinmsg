@@ -23,6 +23,7 @@ server.on('NotFound', function (req, res, err, next) {
 mongodb.connect(process.env.MONGO_URL).then((db) => {
     let bot = new pd.Bot({
         'token': process.env.TGBOT_TOKEN,
+        'logger': log,
         'mongo': {
             'client': db
         },
