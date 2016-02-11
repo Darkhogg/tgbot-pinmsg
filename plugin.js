@@ -17,10 +17,10 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
     bot.help.commands = ['help', 'start'];
     bot.help.text = 'Add me to any group to allow message pinning.\n\n' +
         'Commands:\n' +
-        '/pin – Set a new pinned message.  There are multiple ways of pinning a message:\n' +
-        ' \u{2022} Send this command, then write the message as instructed.\n' +
+        '/pin – Set a new pinned message.\n' +//There are multiple ways of pinning a message:\n' +
+        //' \u{2022} Send this command, then write the message as instructed.\n' +
         //' \u{2022} Send this command and message on the same text.\n' +
-        ' \u{2022} Reply to any message with this command to pin that message.\n' +
+        //' \u{2022} Reply to any message with this command to pin that message.\n' +
         '/pinned – Send the current pinned message to the group.\n' +
         '/unpin – Remove the current message.\n\n' +
         'If you find me useful, give me a good rating [on the @StoreBot](https://telegram.me/storebot?start=pinmsgbot)!';
@@ -127,6 +127,7 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
             });
         }
 
-        return bot.pinMessage(result.chat.id, result.message_id);
+        let pinMsgId = result.message_id;
+        return bot.pinMessage(result.chat.id, pinMsgId);
     });
 });
