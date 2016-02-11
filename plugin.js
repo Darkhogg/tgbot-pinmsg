@@ -29,7 +29,8 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
     bot.on('command', function ($evt, cmd, msg) {
         if (msg.chat.type !== 'group' && msg.chat.type !== 'supergroup') {
             $evt.stop();
-            return bot.api.sendMessage({
+
+            return new pd.API.Request('sendMessage', {
                 'chat_id': msg.chat.id,
                 'text': 'Add me to a group to be able to pin messages!  ' +
                     'I\'m of no use on private chats.\n' +
@@ -41,7 +42,11 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
     /* Define the actual pinning/unpinning/retrieving functions */
     bot.pinMessage = function pinMessage (chatId, messageId) {
         bot.logger.info('[~PinMsg]  pinning message "%s" to chat "%s"', messageId, chatId);
-        return bot.storage.set('pin', chatId, { 'message_id': messageId });
+        return bot.storage.set('pin', chatId, { 'message_id': messageId })
+            .then(() => new pd.API.Request('sendMessage', {
+                'chat_id': chatId,
+                'text': 'Message successfully pinned! Retrieve at any time with /pinned or unpin it with /unpin.',
+            }));
     };
 
     bot.unpinMessage = function unpinMessage (chatId) {
@@ -72,7 +77,7 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
                 ? 'Message successfully unpinned!'
                 : 'There was no message to unpin.';
 
-            return bot.api.sendMessage({
+            return new pd.API.Request('sendMessage', {
                 'chat_id': msg.chat.id,
                 'text': text
             });
@@ -84,14 +89,14 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
         return bot.getPinnedMessage(msg.chat.id).then((pinnedMsg) => {
             /* Inform if no pinned message is available */
             if (!pinnedMsg) {
-                return bot.api.sendMessage({
+                return new pd.API.Request('sendMessage', {
                     'chat_id': msg.chat.id,
                     'text': 'This group doesn\'t have a pinned message. Use /pin to add one!'
                 });
             }
 
             /* Forward the pinned message */
-            return bot.api.forwardMessage({
+            return new pd.API.Request('forwardMessage', {
                 'chat_id': msg.chat.id,
                 'from_chat_id': msg.chat.id,
                 'message_id': pinnedMsg
@@ -101,7 +106,7 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
 
     /* Prompt for pinned message */
     bot.on('prompt.request.pin', function ($evt, prompt) {
-        return bot.api.sendMessage({
+        return new pd.API.Request('sendMessage', {
             'chat_id': prompt.chat,
             'reply_to_message_id': prompt.data.message_id,
             'text': 'Write a message to be pinned.\n' +
@@ -116,7 +121,7 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
 
     bot.on('prompt.complete.pin', function ($evt, prompt, result) {
         if (result.text.trim().indexOf('/cancel') == 0) {
-            return bot.api.sendMessage({
+            return new pd.API.Request('sendMessage', {
                 'chat_id': result.chat.id,
                 'text': 'Ok, I won\'t modify the pinned message.'
             });
