@@ -22,7 +22,8 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
         //' \u{2022} Send this command and message on the same text.\n' +
         ' \u{2022} Reply to any message with this command to pin that message.\n' +
         '/pinned – Send the current pinned message to the group.\n' +
-        '/unpin – Remove the current message.\n';
+        '/unpin – Remove the current message.\n\n' +
+        'If you find me useful, give me a good rating [on the @StoreBot](https://telegram.me/storebot?start=pinmsgbot)!';
 
     /* Do not respond to commands outside of groups */
     bot.on('command', function ($evt, cmd, msg) {

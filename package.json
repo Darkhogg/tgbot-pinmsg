@@ -9,7 +9,7 @@
     "botanio": "0.0.6",
     "crashit": "^0.4.1",
     "mongodb-bluebird": "0.0.9",
-    "paperdrone": "^0.8.5",
+    "paperdrone": "^0.9.1",
     "restify": "^4.0.4",
     "winston": "^2.1.1"
   },
