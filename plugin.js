@@ -121,7 +121,7 @@ module.exports = pd.Plugin.define('~PinMsg', function (bot, options) {
     });
 
     bot.on('prompt.complete.pin', function ($evt, prompt, result) {
-        if (result.text.trim().indexOf('/cancel') == 0) {
+        if (result.text && result.text.trim().indexOf('/cancel') == 0) {
             return new pd.API.Request('sendMessage', {
                 'chat_id': result.chat.id,
                 'text': 'Ok, I won\'t modify the pinned message.'
